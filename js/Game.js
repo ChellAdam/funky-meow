@@ -229,12 +229,8 @@ export default class Game {
             this.niveau = 1;
         }
     
-        // 1. Appeler `destroy()` sur chaque objet avant suppression
-        this.objetsGraphiques.forEach(obj => {
-            if (typeof obj.destroy === "function") {
-                obj.destroy();
-            }
-        });
+        // Vider les objets existants
+        this.objetsGraphiques = [];
     
         // 2. Vider complètement le tableau d'objets
         this.objetsGraphiques.length = 0;
