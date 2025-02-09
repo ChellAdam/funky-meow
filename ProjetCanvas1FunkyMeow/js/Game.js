@@ -40,6 +40,20 @@ export default class Game {
         console.log("Game initialisé");
     }
 
+    updateFPS() {
+        const now = performance.now();
+        const deltaTime = now - this.lastFrameTime;
+
+        if (deltaTime > 0) {
+            this.fps = Math.min(60, Math.round(1000 / deltaTime)); // Limite à 60 images par secondes pour éviter que cela crée des problèmes
+        } else {
+            this.fps = 60; // Force le 60 images par secondes peu importe la situation
+        }
+    
+        // Affichage des FPS
+        document.getElementById('fpsCounter').textContent = `FPS: ${this.fps}`;
+    }
+
     start() {
         console.log("Game démarré");
 
@@ -61,6 +75,15 @@ export default class Game {
         // 4 - on demande au navigateur d'appeler la fonction mainAnimationLoop
         // à nouveau dans 1/60 de seconde
         requestAnimationFrame(this.mainAnimationLoop.bind(this));
+
+            const now = performance.now();
+            const deltaTime = now - this.lastFrameTime;
+        
+            if (deltaTime >= 16.67) { // Environ 60 FPS (1s / 60 = 16.67ms) car sur pc 144hz le perso se dééplace plus vite sinon
+                this.lastFrameTime = now;
+        
+        }
+        
     }
 
     drawAllObjects() {
@@ -275,5 +298,7 @@ export default class Game {
     
         console.log("Passage au niveau " + this.niveau);
     }
+
+    
     
 }
