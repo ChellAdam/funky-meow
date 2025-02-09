@@ -225,22 +225,21 @@ export default class Game {
     }
     
     passerAuNiveauSuivant() {
-    
-        if (this.niveau >5) {
-            this.niveau = 1;}
-    
-        // On vide les obstacles actuels
-        this.objetsGraphiques = this.objetsGraphiques.filter(obj => 
-            !(obj instanceof Obstacle || obj instanceof Sortie || obj instanceof obstacleAnime || obj instanceof ObstacleDangereux));
+        if (this.niveau > 5) {
+            this.niveau = 1;
+        }
 
-            this.objetsGraphiques.forEach(obj => {
-                if (typeof obj.destroy === "function") {
-                    obj.destroy();  // Appelle la méthode destroy() si elle existe
-                }
-            });
-            this.objetsGraphiques.length = 0; // Vide le tableau proprement
+        //  Détruire les anciens objets 
+        this.objetsGraphiques.forEach(obj => {
+            if (typeof obj.destroy === "function") {
+                obj.destroy();
+            }
+        });
     
-        // On garde le joueur
+        //  Vider complètement le tableau pour libérer la mémoire 
+        this.objetsGraphiques.length = 0;
+    
+        // On garde uniquement le joueur
         this.objetsGraphiques.push(this.player);
     
         switch (this.niveau) {
@@ -251,47 +250,39 @@ export default class Game {
                 this.objetsGraphiques.push(new Obstacle(160, 0, 40, 680, "#800080"));
                 this.objetsGraphiques.push(new Obstacle(0, 0, 30, 800, "#800080"));
                 this.objetsGraphiques.push(new Obstacle(160, 680, 700, 30, "#800080"));
-                this.sortie = new Sortie(750, 750, 30, 30, "green"); this.niveau++;
+                this.sortie = new Sortie(750, 750, 30, 30, "green");
+                this.niveau++;
                 break;
+            
             case 2:
                 this.objetsGraphiques.push(new Obstacle(200, 0, 40, 600, "#800080"));
                 this.objetsGraphiques.push(new obstacleAnime(0, 300, 40, 80, "#c232ac", 2, 2, 160, 160));
-                this.objetsGraphiques.push(new obstacleAnime(200, 600, 40, 80, "#c232ac", 0, 2, 0, 100)); 
-                this.objetsGraphiques.push(new Obstacle(400, 200, 40, 600, "#800080"));
-                this.objetsGraphiques.push(new obstacleAnime(400, 0, 40, 50, "#c232ac", 0, 2, 0, 150)); 
-                this.objetsGraphiques.push(new Obstacle(400, 200, 600, 40, "#800080"));
-                this.objetsGraphiques.push(new obstacleAnime(240, 240, 40, 50, "#c232ac", 1, 0, 120, 0)); 
-                this.sortie = new Sortie(700, 100, 30, 30, "green"); this.niveau++;
+                this.objetsGraphiques.push(new obstacleAnime(200, 600, 40, 80, "#c232ac", 0, 2, 0, 100));
+                this.sortie = new Sortie(700, 100, 30, 30, "green");
+                this.niveau++;
                 break;
+    
             case 3:
                 this.objetsGraphiques.push(new Obstacle(0, 0, 800, 40, "#800080"));
                 this.objetsGraphiques.push(new Obstacle(0, 200, 800, 40, "#800080"));
                 this.objetsGraphiques.push(new obstacleAnime(200, 40, 30, 30, "#c232ac", 0, 2, 0, 118));
-                this.objetsGraphiques.push(new obstacleAnime(450, 40, 30, 30, "#c232ac", 0, 2, 0, 118));
-                this.objetsGraphiques.push(new ObstacleDangereux(320, 40, 40, 40, "#c90644"));
-                this.objetsGraphiques.push(new ObstacleDangereux(600, 160, 40, 40, "#c90644"));
-                this.sortie = new Sortie(700, 100, 30, 30, "green"); this.niveau++;
+                this.sortie = new Sortie(700, 100, 30, 30, "green");
+                this.niveau++;
                 break;
+            
             case 4:
                 this.objetsGraphiques.push(new ObstacleDangereux(0, 0, 800, 40, "#c90644"));
                 this.objetsGraphiques.push(new ObstacleDangereux(0, 130, 700, 40, "#c90644"));
-                this.objetsGraphiques.push(new ObstacleDangereux(700, 130, 40, 600, "#c90644"));
-                this.objetsGraphiques.push(new ObstacleDangereux(140, 700, 600, 40, "#c90644"));
-                this.objetsGraphiques.push(new ObstacleDangereux(140, 280, 40, 450, "#c90644"));
-                this.objetsGraphiques.push(new obstacleAnime(0, 650, 20, 20, "#c232ac", 2, 0, 120, 0));
                 this.objetsGraphiques.push(new obstacleAnime(185, 350, 50, 50, "#c232ac", 2, 0, 460, 0));
-                this.objetsGraphiques.push(new obstacleAnime(185, 500, 50, 50, "#c232ac", 3, 0, 460, 0));
-                this.objetsGraphiques.push(new obstacleAnime(185, 270, 50, 50, "#c232ac", 3, 0, 460, 0));
-                this.objetsGraphiques.push(new obstacleAnime(185, 420, 50, 50, "#c232ac", 4, 0, 460, 0));
-                this.sortie = new Sortie(600, 600, 30, 30, "green"); this.niveau++;
+                this.sortie = new Sortie(600, 600, 30, 30, "green");
+                this.niveau++;
                 break;
             
             case 5:
-                // Appliquer la classe niveau5 au body lorsque le joueur atteint le niveau 5
                 document.body.classList.add("niveau5");
                 this.sortie = new Sortie(100, 700, 30, 30, "green");
                 this.niveau++;
-                 break; 
+                break;
         }
     
         // On ajoute la sortie
@@ -305,6 +296,7 @@ export default class Game {
     
         console.log("Passage au niveau " + this.niveau);
     }
+    
 
     
     
