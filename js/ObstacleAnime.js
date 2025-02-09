@@ -5,40 +5,36 @@ import ObstacleDangereux from "./ObstacleDangereux.js";
  */
 export default class obstacleAnime extends ObstacleDangereux {
     constructor(x, y, w, h, couleur, speedX, speedY, rangeX, rangeY) {
-        super(x, y, w, h, couleur);  // Appel du constructeur parent (ObstacleDangereux)
-        this.couleur = couleur; // Couleur de l'obstacle
-        this.speedX = speedX;  // Vitesse de déplacement horizontal
-        this.speedY = speedY;  // Vitesse de déplacement vertical
-        this.rangeX = rangeX;  // Amplitude du déplacement horizontal
-        this.rangeY = rangeY;  // Amplitude du déplacement vertical
-        this.startY = y;  // Position initiale
-        this.startX = x;  // Position initiale en X
-        this.directionX = 1; // Direction du mouvement horizontal (1 = droite, -1 = gauche)
-        this.directionY = 1; // Direction du mouvement vertical (1 = descend, -1 = monte)
+        super(x, y, w, h, couleur);
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.rangeX = rangeX;
+        this.rangeY = rangeY;
+        this.startX = x;
+        this.startY = y;
+        this.directionX = 1;
+        this.directionY = 1;
+        this.alive = true;  // Ajout d'un état pour stopper l'update
     }
 
-    /**
-     * Met à jour la position de l'obstacle.
-     */
     update() {
+        if (!this.alive) return; // Empêche l'animation après destruction
+
         this.y += this.speedY * this.directionY;
         this.x += this.speedX * this.directionX;
 
-        // Change de direction lorsqu'il atteint les limites de son mouvement vertical
         if (this.y > this.startY + this.rangeY || this.y < this.startY) {
             this.directionY *= -1;
         }
 
-        // Change de direction lorsqu'il atteint les limites de son mouvement horizontal
         if (this.x > this.startX + this.rangeX || this.x < this.startX) {
             this.directionX *= -1;
         }
     }
 
-    /**
-     * Dessine l'obstacle sur le canvas.
-     */
     draw(ctx) {
+        if (!this.alive) return; // Empêche le rendu après destruction
+
         ctx.save();
         ctx.fillStyle = this.couleur;
         ctx.fillRect(this.x, this.y, this.w, this.h);
@@ -46,7 +42,7 @@ export default class obstacleAnime extends ObstacleDangereux {
     }
 
     destroy() {
-        // Suppression explicite des références et des éventuels écouteurs d'événements
-        console.log(`${this.constructor.name} détruit.`);
+        console.log(`${this.constructor.name} supprimé.`);
+        this.alive = false; // Stoppe immédiatement les animations
     }
 }
