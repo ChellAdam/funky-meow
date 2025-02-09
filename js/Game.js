@@ -17,6 +17,12 @@ export default class Game {
             mouseX: 0,
             mouseY: 0,
         };
+        // Ajout d'un écouteur pour la touche 'N'
+        window.addEventListener('keydown', (event) => {
+            if(event.key === 'n' || event.key === 'N') {
+                this.passerAuNiveauSuivant();
+            }
+        });
     } 
 
     async init(canvas) {
@@ -41,7 +47,7 @@ export default class Game {
         if (deltaTime > 0) {
             this.fps = Math.min(60, Math.round(1000 / deltaTime)); // Limite à 60 images par secondes pour éviter que cela crée des problèmes
         } else {
-            this.fps = 60; // Force le 60 images par secondes peu importe la situation
+            this.fps = 60; // Force le 60 images par secondes peu
         }
     
         // Affichage des FPS
@@ -225,7 +231,7 @@ export default class Game {
     
         // On vide les obstacles actuels
         this.objetsGraphiques = this.objetsGraphiques.filter(obj => 
-            !(obj instanceof Obstacle || obj instanceof Sortie || obj instanceof obstacleAnime || obj instanceof ObstacleDangereux || obj instanceof obstacleAnime));
+            !(obj instanceof Obstacle || obj instanceof Sortie || obj instanceof obstacleAnime || obj instanceof ObstacleDangereux));
     
         // On garde le joueur
         this.objetsGraphiques.push(this.player);
